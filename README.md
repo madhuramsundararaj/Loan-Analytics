@@ -3,9 +3,8 @@
 ---
 ### About this Project
 
-I built this project to demonstrate how a data analyst thinks inside a environment - not just technically, but commercially.
-
-MY background is in operations at Amazon and Sutherland, where I worked with structured data daily like CRM records, performance reports, SLA tracking, compilance workflows. I understand what it means, when data is messy, when deadlines are real, and when the output needs to be understood by someone who does not read code.
+I built this project to demonstrate how a Data Analyst thinks inside a environment - not just technically, but commercially.
+My background is in operations at Amazon and Sutherland, where I worked with structured data daily like CRM records, performance reports, SLA tracking, compilance workflows. I understand what it means, when data is messy, when deadlines are real, and when the output needs to be understood by someone who does not read code.
 
 This project replicates the kind og work a junior analyst would do inside a retail bank's credit operations team. The tools are the same. The thinking is the same. The output is something a risk manager could actually act on.
 
@@ -15,7 +14,7 @@ The risk team needs to know:
 - Which customers segments carry the highest default risk?
 - What financial signals predict default  most reliably?
 - Are there suspicicious profiles the standard approval process is missing?
--  What specific policy changes would reduce default exposure?
+- What specific policy changes would reduce default exposure?
 
   ### Pipeline Architecture
 
@@ -25,7 +24,7 @@ The risk team needs to know:
   |
   Stage 2 - Python: Clean < Engineer features < Detect anaomalies
   |
-  stage 3 - Power BI: Interactive dashboard for business users
+  Stage 3 - Power BI: Interactive dashboard for business users
 
   Each stage has a clear job and passes its output to the next.
   This mirrors how real data teams are strcutcured in Indian BFSI firms.
@@ -39,12 +38,12 @@ The risk team needs to know:
   This gap hold even after controlling for icnome - age carries risk 
   Information taht income alone does not capture.
 
-  **Finding 2 - Revolving utilization is the strongest predictor**
+**Finding 2 - Revolving utilization is the strongest predictor**
   I expected income to matter most. It did not.
   Customers using more than 70% of their available credit defaulted at nearly 3x the rate of low utilization customers.
   This single variable has a correlation of 0.25 with default of the highest in dataset.
 
-  **Finding 3 - The anomaly cluster**
+**Finding 3 - The anomaly cluster**
 
 Isolation Forest flagged 7,252 accounts (5% of data) as anomalous
 These are customers who looks acceptable on any sinle measure but are statisticallt unusual in combination of high debt, low income, late payments, high utlization, all at once.
@@ -84,13 +83,13 @@ Expected impact: 18% reduction in default volume.
 - 3.924 missing Number of Dependents vaues filled using mode
 - Removed records with age below 18, income of zero and credit utilization above 100%
 
-  ####Feature Engineering
+#### Feature Engineering
   Three new features created to improve analysis depth:
   - **emi_burden** - debt ratio relative to income
   - **risk_score** - weighted combination of debt ratio and utilization
   - **age_group** - Young / Mid / Senior segmentation
 
-  #### Anomaly Detection
+#### Anomaly Detection
   - Primary method: Isolation Forest (scikit - learn) with contamination=0.05
   - Secondary validation: z-score with threshold of 3 standard deviations
   - Result: 7,252 flagged by Isolation Forest | 924 confirmed by both methods

@@ -1,0 +1,200 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "5e3445b7-fb0d-4a1b-a7c8-bb5ed1a2f398",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Data loaded successfully\n",
+      "Total rows: 145038\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import sqlite3\n",
+    "\n",
+    "# Create SQLite database\n",
+    "conn = sqlite3.connect('/Users/madhuramdhanesh/Downloads/loan_database.db')\n",
+    "\n",
+    "# Load clean data\n",
+    "df = pd.read_csv('/Users/madhuramdhanesh/Downloads/loan_clean.csv')\n",
+    "\n",
+    "# Load into database\n",
+    "df.to_sql('loans', conn, if_exists='replace', index=False)\n",
+    "\n",
+    "print(\"Data loaded successfully\")\n",
+    "print(\"Total rows:\", len(df))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "f7302fb3-ee96-44f5-8dc5-46d3eeb2f283",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Query 1 - Default Rate by Age Group\n",
+      "  age_group  total_loans  total_defaults  default_rate_pct\n",
+      "0     Young         9943            1046             10.52\n",
+      "1       Mid        56943            4537              7.97\n",
+      "2    Senior        78152            3141              4.02\n",
+      "Saved to defaults_by_age.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Query 1 - Default rate by age group\n",
+    "query1 = \"\"\"\n",
+    "SELECT \n",
+    "    age_group,\n",
+    "    COUNT(*) AS total_loans,\n",
+    "    SUM(SeriousDlqin2yrs) AS total_defaults,\n",
+    "    ROUND(100.0 * SUM(SeriousDlqin2yrs) / COUNT(*), 2) AS default_rate_pct\n",
+    "FROM loans\n",
+    "GROUP BY age_group\n",
+    "ORDER BY default_rate_pct DESC;\n",
+    "\"\"\"\n",
+    "\n",
+    "result1 = pd.read_sql_query(query1, conn)\n",
+    "print(\"Query 1 - Default Rate by Age Group\")\n",
+    "print(result1)\n",
+    "\n",
+    "# Save to CSV\n",
+    "result1.to_csv('/Users/madhuramdhanesh/Downloads/defaults_by_age.csv', index=False)\n",
+    "print(\"Saved to defaults_by_age.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "e81e5695-16e7-4625-8b24-9a2b7756e8c6",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Query 2 - Default Rate by Debt Quartile\n",
+      "         debt_quartile  total_loans  default_rate_pct  avg_income\n",
+      "0  Q4 - Very High Debt        45280              6.93      4998.0\n",
+      "1       Q3 - High Debt        38682              6.23      6767.0\n",
+      "2        Q1 - Low Debt        23980              5.41      7354.0\n",
+      "3     Q2 - Medium Debt        37096              5.07      7565.0\n",
+      "Saved to debt_quartile_analysis.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Query 2 - Default rate by debt ratio quartile\n",
+    "query2 = \"\"\"\n",
+    "SELECT \n",
+    "    CASE \n",
+    "        WHEN DebtRatio < 0.1 THEN 'Q1 - Low Debt'\n",
+    "        WHEN DebtRatio < 0.3 THEN 'Q2 - Medium Debt'\n",
+    "        WHEN DebtRatio < 0.6 THEN 'Q3 - High Debt'\n",
+    "        ELSE 'Q4 - Very High Debt'\n",
+    "    END AS debt_quartile,\n",
+    "    COUNT(*) AS total_loans,\n",
+    "    ROUND(AVG(SeriousDlqin2yrs) * 100, 2) AS default_rate_pct,\n",
+    "    ROUND(AVG(MonthlyIncome), 0) AS avg_income\n",
+    "FROM loans\n",
+    "GROUP BY debt_quartile\n",
+    "ORDER BY default_rate_pct DESC;\n",
+    "\"\"\"\n",
+    "\n",
+    "result2 = pd.read_sql_query(query2, conn)\n",
+    "print(\"Query 2 - Default Rate by Debt Quartile\")\n",
+    "print(result2)\n",
+    "\n",
+    "result2.to_csv('/Users/madhuramdhanesh/Downloads/debt_quartile_analysis.csv', index=False)\n",
+    "print(\"Saved to debt_quartile_analysis.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "76093f4f-b3a6-423a-a58a-d54633223534",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Query 3 - High Risk Customers\n",
+      "  age_group  total_customers  avg_risk_score  avg_debt_ratio  avg_income  \\\n",
+      "0    Senior            30594         409.191        1022.357      5627.0   \n",
+      "1       Mid            24147         288.420         720.113      5503.0   \n",
+      "2     Young             4751          76.420         189.897      3630.0   \n",
+      "\n",
+      "   total_defaults  \n",
+      "0            2020  \n",
+      "1            3304  \n",
+      "2             756  \n",
+      "Saved to high_risk_loans.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Query 3 - High risk customers\n",
+    "query3 = \"\"\"\n",
+    "SELECT \n",
+    "    age_group,\n",
+    "    COUNT(*) AS total_customers,\n",
+    "    ROUND(AVG(risk_score), 3) AS avg_risk_score,\n",
+    "    ROUND(AVG(DebtRatio), 3) AS avg_debt_ratio,\n",
+    "    ROUND(AVG(MonthlyIncome), 0) AS avg_income,\n",
+    "    SUM(SeriousDlqin2yrs) AS total_defaults\n",
+    "FROM loans\n",
+    "WHERE risk_score > 0.5\n",
+    "GROUP BY age_group\n",
+    "ORDER BY avg_risk_score DESC;\n",
+    "\"\"\"\n",
+    "\n",
+    "result3 = pd.read_sql_query(query3, conn)\n",
+    "print(\"Query 3 - High Risk Customers\")\n",
+    "print(result3)\n",
+    "\n",
+    "result3.to_csv('/Users/madhuramdhanesh/Downloads/high_risk_loans.csv', index=False)\n",
+    "print(\"Saved to high_risk_loans.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7febe8ad-d39d-41e4-b064-60b15da2b300",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:base] *",
+   "language": "python",
+   "name": "conda-base-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

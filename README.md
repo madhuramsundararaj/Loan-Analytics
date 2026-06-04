@@ -17,22 +17,22 @@ The risk team needs to know:
 - Are there suspicicious profiles the standard approval process is missing?
 - What specific policy changes would reduce default exposure?
 
-  ### Pipeline Architecture
+### Pipeline Architecture
 
-  RAW DATA (1,50,000)
-  |
-  Stage 1 - SQL: Extract < Segment < Query
-  |
-  Stage 2 - Python: Clean < Engineer features < Detect anaomalies
-  |
-  Stage 3 - Power BI: Interactive dashboard for business users
+RAW DATA (1,50,000)
+|
+Stage 1 - SQL: Extract < Segment < Query
+|
+Stage 2 - Python: Clean < Engineer features < Detect anaomalies
+|
+Stage 3 - Power BI: Interactive dashboard for business users
 
-  Each stage has a clear job and passes its output to the next.
-  This mirrors how real data teams are strcutcured in Indian BFSI firms.
+Each stage has a clear job and passes its output to the next.
+This mirrors how real data teams are strcutcured in Indian BFSI firms.
 
   ---
 
-  ### Key Findings
+### Key Findings
 
 **Finding 1 - Age is an independent risk factor**
   Borrowers under 30 default at 10.52% vrsus 4.02% for borrower over 50.
@@ -97,20 +97,20 @@ Expected impact: 18% reduction in default volume.
 
   ---
 
-  ### Tools and Technologies
-  | Tool | Purpose |
-  |------|----------|
-  | PostgreSQL / SQLite | Data extraction and segmentation |
-  | Python - pandas, Numpy | Cleaning and feature engineering |
-  | Python - sickit-learn | Isolation Forest anomaly detection |
-  | Python - matplotlib, seaborn | Exploratory visulaization |
-  | Power BI | Interactive business dashboard |
-  | Jupyter Notebook | Analysis and documentation |
-  | Github | Version control and portofolio|
+### Tools and Technologies
+| Tool | Purpose |
+|------|----------|
+| PostgreSQL / SQLite | Data extraction and segmentation |
+| Python - pandas, Numpy | Cleaning and feature engineering |
+| Python - sickit-learn | Isolation Forest anomaly detection |
+| Python - matplotlib, seaborn | Exploratory visulaization |
+| Power BI | Interactive business dashboard |
+| Jupyter Notebook | Analysis and documentation |
+| Github | Version control and portofolio|
 
   ---
 
-  ### What This Project Demonstrates
+### What This Project Demonstrates
 
   - End to end pipeing thinking and not just one tool in isolation
   -  Domain knowledge of BFSI risk workflows
@@ -120,27 +120,27 @@ Expected impact: 18% reduction in default volume.
  
   ---
 
-  ### Dataset
-  **Source:** Kaggle - Give me some credit competition
-  **Size:** 1,50,000 rows | 12 coloumns
-  **Target:** SeriousDlqin2yrs (1 = defaulted, 0 = did not default)
-  **License:** Free for educational and portfolio use
+### Dataset
+**Source:** Kaggle - Give me some credit competition
+**Size:** 1,50,000 rows | 12 coloumns
+**Target:** SeriousDlqin2yrs (1 = defaulted, 0 = did not default)
+**License:** Free for educational and portfolio use
 
   ---
 
-  ### How to Run
-  1. Download cs-training.csv from kaggle (Give Me Some Credit)
-  2. Run notebooks inn order: 01 -> 02 -> 03 -> 04
-  3. Output CSVs generate automatically in folder
-  4. Open Power BI file from powerbi folder
+### How to Run
+1. Download cs-training.csv from kaggle (Give Me Some Credit)
+2. Run notebooks inn order: 01 -> 02 -> 03 -> 04
+3. Output CSVs generate automatically in folder
+4. Open Power BI file from powerbi folder
 
   ---
 
-  ### About Me
+### About Me
 
-  MBA in Business Analytics | SRM University, Chennai (2024)
-  Operations background at Amazon and Sutherland Global Services
-  Targeting Data Analyst | Operations Analyst | MIS Analyst roles
-  Chennai | Hybrid | Remote
+MBA in Business Analytics | SRM University, Chennai (2024)
+Operations background at Amazon and Sutherland Global Services
+Targeting Data Analyst | Operations Analyst | MIS Analyst roles
+Chennai | Hybrid | Remote
 
-  This project is part of my portofolio demonstrating end to end analytics capability for entry level data analyst roles.
+This project is part of my portofolio demonstrating end to end analytics capability for entry level data analyst roles.

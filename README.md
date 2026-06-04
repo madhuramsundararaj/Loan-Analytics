@@ -4,6 +4,7 @@
 ### About this Project
 
 I built this project to demonstrate how a Data Analyst thinks inside a environment - not just technically, but commercially.
+
 My background is in operations at Amazon and Sutherland, where I worked with structured data daily like CRM records, performance reports, SLA tracking, compilance workflows. I understand what it means, when data is messy, when deadlines are real, and when the output needs to be understood by someone who does not read code.
 
 This project replicates the kind og work a junior analyst would do inside a retail bank's credit operations team. The tools are the same. The thinking is the same. The output is something a risk manager could actually act on.
@@ -33,7 +34,7 @@ The risk team needs to know:
 
   ### Key Findings
 
-  **Finding 1 - Age is an independent risk factor**
+**Finding 1 - Age is an independent risk factor**
   Borrowers under 30 default at 10.52% vrsus 4.02% for borrower over 50.
   This gap hold even after controlling for icnome - age carries risk 
   Information taht income alone does not capture.

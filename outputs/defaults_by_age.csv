@@ -1,0 +1,4 @@
+age_group,total_loans,total_defaults,default_rate_pct
+Young,9943,1046,10.52
+Mid,56943,4537,7.97
+Senior,78152,3141,4.02

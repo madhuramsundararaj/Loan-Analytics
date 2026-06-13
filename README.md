@@ -14,7 +14,7 @@ A retail bank has 1,50,000 loan recoreds and a rising default rate.
 The risk team needs to know:
 - Which customers segments carry the highest default risk?
 - What financial signals predict default  most reliably?
-- Are there suspicicious profiles the standard approval process is missing?
+- Are there suspicious profiles the standard approval process is missing?
 - What specific policy changes would reduce default exposure?
 
 ### Pipeline Architecture
@@ -28,26 +28,26 @@ Stage 2 - Python: Clean < Engineer features < Detect anaomalies
 Stage 3 - Power BI: Interactive dashboard for business users
 
 Each stage has a clear job and passes its output to the next.
-This mirrors how real data teams are strcutcured in Indian BFSI firms.
+This mirrors how real data teams are strcutcured in India BFSI firms.
 
   ---
 
 ### Key Findings
 
 **Finding 1 - Age is an independent risk factor**
-  Borrowers under 30 default at 10.52% vrsus 4.02% for borrower over 50.
+  Borrowers under 30 default at 10.52% versus 4.02% for borrower over 50.
   This gap hold even after controlling for icnome - age carries risk 
-  Information taht income alone does not capture.
+  Information that income alone does not capture.
 
 **Finding 2 - Revolving utilization is the strongest predictor**
   I expected income to matter most. It did not.
-  Customers using more than 70% of their available credit defaulted at nearly 3x the rate of low utilization customers.
+  Customers using more than 70% of their available credit defaulted at nearly 3x the rate of low utilisation customers.
   This single variable has a correlation of 0.25 with default of the highest in dataset.
 
 **Finding 3 - The anomaly cluster**
 
 Isolation Forest flagged 7,252 accounts (5% of data) as anomalous
-These are customers who looks acceptable on any sinle measure but are statisticallt unusual in combination of high debt, low income, late payments, high utlization, all at once.
+These are customers who looks acceptable on any single measure but are statistically unusual in combination of high debt, low income, late payments, high utlization, all at once.
 Cross vaidated with z score analysis: 924 accounts flagged by both methods. These are highest confidence risk cases.
 
 **Finding 4 - Income has a threshold effect**
@@ -65,7 +65,7 @@ Borrowers under 28 with less than 2 years of credit history should face addition
 Expected impact: 20-25% reduction in defaults for the under 30 segment.
 
 **2. Anomaly review queue**
-Any application flagged as anomalous by teh model should go to human review before disbursement. Routing 5% of appications for a second look is far cheaper than absorbing the defaults that slip through.
+Any application flagged as anomalous by the model should go to human review before disbursement. Routing 5% of appications for a second look is far cheaper than absorbing the defaults that slip through.
 
 Expected impact: If 40% of flagged loans are restructured or declined portofolio default rate drops by aproximately 2.5% 
 
@@ -114,9 +114,9 @@ Expected impact: 18% reduction in default volume.
 
   - End to end pipeing thinking and not just one tool in isolation
   -  Domain knowledge of BFSI risk workflows
-  -  Ability to translate technical findigns into business perspective
+  -  Ability to translate technical findings into business perspective
   -  ML application beyond standard EDA
-  -  The kidn of output a risk manager or operatins head can act on
+  -  The kind of output a risk manager or operatins head can act on
  
   ---
 
